@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+const API_BASE_URL = 'https://ai-gen-server-l4fb.onrender.com/api';
 
 function DesignDetail() {
   const { id } = useParams();
@@ -9,16 +11,16 @@ function DesignDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (id) fetchDesign();
-  }, [id]);
-
-  const fetchDesign = async () => {
+  // Memoized fetch function to avoid ESLint warning
+  const fetchDesign = useCallback(async () => {
     try {
       setLoading(true);
-      await axios.put(`https://ai-gen-server-l4fb.onrender.com/api/designs/${id}/view`);
       
-      const res = await axios.get(`http://localhost:5000/api/designs/${id}`);
+      // Increment view count
+      await axios.put(`${API_BASE_URL}/designs/${id}/view`);
+      
+      // Get design details
+      const res = await axios.get(`${API_BASE_URL}/designs/${id}`);
       
       if (res.data.success) {
         setDesign(res.data.design);
@@ -31,7 +33,11 @@ function DesignDetail() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    if (id) fetchDesign();
+  }, [id, fetchDesign]);
 
   const handleLike = async () => {
     try {
@@ -42,7 +48,7 @@ function DesignDetail() {
       }
 
       const res = await axios.put(
-        `https://ai-gen-server-l4fb.onrender.com/api/designs/${id}/like`,
+        `${API_BASE_URL}/designs/${id}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -84,7 +90,7 @@ function DesignDetail() {
 
   return (
     <div className="design-detail-page">
-      <button className="back-btn" onClick={() => navigate(-1)}> Back</button>
+      <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
 
       <div className="detail-container">
         {/* Large Image */}
@@ -135,7 +141,7 @@ function DesignDetail() {
         )}
       </div>
 
-      {/* Source Code Section - Premium & Clean */}
+      {/* Source Code Section */}
       {design.generatedCode && (
         <div className="source-code-section">
           <h3>Source Code</h3>
