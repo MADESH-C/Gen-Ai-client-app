@@ -2,6 +2,9 @@
 <img width="1600" height="792" alt="dc19ddd6-847e-4e6c-842d-8e6b3e44edb3" src="https://github.com/user-attachments/assets/97139ba1-cfe1-4cdb-b4ce-22301202587a" />
 
 # Home Page
+<img width="1600" height="794" alt="f11ccb1f-b87f-4c6b-9fae-3afd17a9475a" src="https://github.com/user-attachments/assets/3e7e73b5-89c1-48c1-b0f3-e1b2290be3ec" />
+
+# AI Code Generator
 <img width="1600" height="790" alt="ce5e848f-187a-49b2-9e46-a3993ec95888" src="https://github.com/user-attachments/assets/1020090f-49a8-48d8-9676-9f0733067266" />
 
 
